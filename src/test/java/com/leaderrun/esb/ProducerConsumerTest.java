@@ -11,7 +11,8 @@ public class ProducerConsumerTest {
 
 	@Test
 	public void test() throws Exception {
-		String nameserver = "127.0.0.1:9876";
+		String nameserver = "rocketmq:9876";
+//		String nameserver = "127.0.0.1:9876";
 //		String nameserver = "192.168.88.21:9876";
 		String topicName = "TestTopic";
 
