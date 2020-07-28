@@ -2,7 +2,7 @@ image: maven:3.6.0-jdk-8
 
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
-  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true -U"
+  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true -s settings.xml -U"
 
 cache:
   paths:
@@ -22,6 +22,6 @@ deploy:
       command: ["sh", "-c", "sh play.sh; while [ true ]; do sleep 60; done"]
   stage: deploy
   script:
-    - mvn $MAVEN_CLI_OPTS test deploy
+    - mvn $MAVEN_CLI_OPTS test
   tags:
     - docker
