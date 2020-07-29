@@ -2,7 +2,7 @@ image: maven:3.6.0-jdk-8
 
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
-  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true -s settings.xml -U"
+  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true -U"
 
 cache:
   paths:
@@ -15,13 +15,21 @@ build:
   tags:
     - docker
 
-deploy:
+test:
   services:
     - name: foxiswho/rocketmq:4.7.0
       alias: rocketmq
       command: ["sh", "-c", "sh play.sh; while [ true ]; do sleep 60; done"]
+  stage: test
+  script:
+    - mvn $MAVEN_CLI_OPTS -s settings.xml test
+  tags:
+    - docker
+
+deploy:
   stage: deploy
   script:
-    - mvn $MAVEN_CLI_OPTS test
+    - 'git clone http://gitlab-ci-token:$CI_JOB_TOKEN@git.yunbaoguan.cn/devops/environment.git environment  || (cd environment; git pull)'
+    - mvn $MAVEN_CLI_OPTS -s environment/leaderrun-maven-config/settings.xml -Dmaven.test.skip=true deploy
   tags:
     - docker
