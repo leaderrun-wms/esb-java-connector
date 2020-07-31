@@ -27,6 +27,19 @@
 			<groupId>org.apache.rocketmq</groupId>
 			<artifactId>rocketmq-client</artifactId>
 			<version>4.7.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.alibaba</groupId>
+					<artifactId>fastjson</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.69</version>
+			<scope>runtime</scope>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -101,22 +114,34 @@
 					<autoReleaseAfterClose>true</autoReleaseAfterClose>
 				</configuration>
 			</plugin>
-<!--
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-gpg-plugin</artifactId>
-				<version>1.5</version>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.4.1</version>
 				<executions>
 					<execution>
-						<id>sign-artifacts</id>
-						<phase>verify</phase>
+						<phase>package</phase>
 						<goals>
-							<goal>sign</goal>
+							<goal>shade</goal>
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<artifactSet>
+						<includes>com.alibaba:fastjson</includes>
+					</artifactSet>
+					<filters>
+						<filter>
+							<artifact>com.alibaba:fastjson</artifact>
+							<excludes>
+								<exclude>META-INF/services/*</exclude>
+							</excludes>
+						</filter>
+					</filters>
+				</configuration>
 			</plugin>
--->
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-gpg-plugin</artifactId> 
+				<version>1.5</version> <executions> <execution> <id>sign-artifacts</id> <phase>verify</phase> 
+				<goals> <goal>sign</goal> </goals> </execution> </executions> </plugin> -->
 		</plugins>
 	</build>
 </project>
