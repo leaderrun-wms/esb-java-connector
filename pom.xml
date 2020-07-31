@@ -27,8 +27,6 @@
 			<groupId>org.apache.rocketmq</groupId>
 			<artifactId>rocketmq-client</artifactId>
 			<version>4.7.1</version>
-			<scope>runtime</scope>
-			<optional>true</optional>
 			<exclusions>
 				<exclusion>
 					<groupId>com.alibaba</groupId>
@@ -132,12 +130,31 @@
 						<includes>
 							<include>com.alibaba:fastjson</include>
 							<include>org.apache.rocketmq:*</include>
+							<include>io.netty:*</include>
+							<include>org.apache.commons:*</include>
+							<include>commons-validator:*</include>
+							<include>commons-beanutils:*</include>
+							<include>commons-disgester:*</include>
+							<include>commons-logging:*</include>
+							<include>commons-collections:*</include>
 						</includes>
 					</artifactSet>
 					<relocations>
 						<relocation>
 							<pattern>com.alibaba.fastjson</pattern>
 							<shadedPattern>repackaged.com.alibaba.fastjson</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>io.netty</pattern>
+							<shadedPattern>repackaged.io.netty</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>org.apache.commons</pattern>
+							<shadedPattern>repackaged.org.apache.commons</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>org.apache.tomcat</pattern>
+							<shadedPattern>repackaged.org.apache.tomcat</shadedPattern>
 						</relocation>
 					</relocations>
 					<filters>
