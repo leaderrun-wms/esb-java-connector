@@ -27,6 +27,8 @@
 			<groupId>org.apache.rocketmq</groupId>
 			<artifactId>rocketmq-client</artifactId>
 			<version>4.7.1</version>
+			<scope>runtime</scope>
+			<optional>true</optional>
 			<exclusions>
 				<exclusion>
 					<groupId>com.alibaba</groupId>
@@ -127,8 +129,17 @@
 				</executions>
 				<configuration>
 					<artifactSet>
-						<includes>com.alibaba:fastjson</includes>
+						<includes>
+							<include>com.alibaba:fastjson</include>
+							<include>org.apache.rocketmq:*</include>
+						</includes>
 					</artifactSet>
+					<relocations>
+						<relocation>
+							<pattern>com.alibaba.fastjson</pattern>
+							<shadedPattern>repackaged.com.alibaba.fastjson</shadedPattern>
+						</relocation>
+					</relocations>
 					<filters>
 						<filter>
 							<artifact>com.alibaba:fastjson</artifact>
